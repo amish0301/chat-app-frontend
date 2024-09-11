@@ -89,9 +89,9 @@ const AppLayout = () => (WrappedComponent) => {
                     <Grid item xs={12} sm={8} md={9} lg={9} height={"100%"}>
                         <WrappedComponent {...props} chatId={chatId} />
                     </Grid>
-                    <Grid item md={4} lg={3} sx={{ display: { xs: 'none', md: 'none' }, padding: '1rem', bgcolor: '#c06c84' }} height={"100%"}>
+                    {/* <Grid item md={4} lg={3} sx={{ display: { xs: 'none', md: 'none' }, padding: '1rem', bgcolor: '#c06c84' }} height={"100%"}>
                         <Profile />
-                    </Grid>
+                    </Grid> */}
                 </Grid>
 
                 {/* Mobile Screen */}
