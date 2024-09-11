@@ -90,7 +90,7 @@ const AppLayout = () => (WrappedComponent) => {
                         <WrappedComponent {...props} chatId={chatId} />
                     </Grid>
                     <Grid item md={4} lg={3} sx={{ display: { xs: 'none', md: 'none' }, padding: '1rem', bgcolor: '#c06c84' }} height={"100%"}>
-                        <Profile user={user} />
+                        <Profile />
                     </Grid>
                 </Grid>
 
