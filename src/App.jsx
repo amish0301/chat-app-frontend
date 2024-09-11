@@ -23,7 +23,6 @@ const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const UserManagement = lazy(() => import('./pages/admin/UserManagement'));
 const ChatManagement = lazy(() => import('./pages/admin/ChatManagement'));
 const MessageManagement = lazy(() => import('./pages/admin/MessageManagement'));
-axios.defaults.withCredentials = true;
 
 const App = () => {
   const { user, loader } = useSelector(state => state.auth);
