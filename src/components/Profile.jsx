@@ -36,7 +36,6 @@ const Profile = () => {
             sx={{
                 backdropFilter: 'blur(20px)',
                 backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                borderRadius: '15px',
                 boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
                 overflow: 'hidden',
             }}
@@ -52,7 +51,7 @@ const Profile = () => {
             >
                 <DialogTitle variant="h5">Profile</DialogTitle>
                 <IconButton
-                    size="medium"
+                    size="large"
                     onClick={closeHandler}
                 >
                     <CloseIcon sx={{ color: 'black', fontSize: '2rem' }} />
