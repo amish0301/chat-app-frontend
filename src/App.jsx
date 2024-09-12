@@ -49,7 +49,7 @@ const App = () => {
     if(!user) checkUser();
   }, [user]);
 
-  if(!user && !loader) return <ProgressiveLoader />;
+  if(!user && !loader) return <ProgressiveLoader h={'100vh'}/>;
 
   return loader ? <LayoutLoader /> : (
     <BrowserRouter>
