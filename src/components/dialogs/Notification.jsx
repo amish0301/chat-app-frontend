@@ -53,8 +53,8 @@ const Notification = () => {
   useXErrors([{ isError, error }]);
 
   return (
-    <Dialog open={isNotification} onClose={handleCloseDialog}>
-      <Stack p={{ xs: '1rem', sm: '2rem' }} sx={{ width: { sm: '30rem', xs: '100%' } }}>
+    <Dialog open={isNotification} onClose={handleCloseDialog} fullWidth>
+      <Stack p={{ xs: '1rem', sm: '2rem' }} width={'100%'}>
         <Stack direction={'row'} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <DialogTitle textAlign={'center'}>Notifications</DialogTitle>
           <IconButton size='medium' onClick={handleCloseDialog}>

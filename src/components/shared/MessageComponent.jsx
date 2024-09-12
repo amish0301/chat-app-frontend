@@ -57,13 +57,13 @@ const MessageComponent = ({ message, user, deleteMessage, isLoading }) => {
           color: "black",
           borderRadius: "8px",
           padding: "7px 5px",
-          maxWidth: "50%", // Restricts the maximum width of the message bubble
-          minWidth: "65px", // Ensures there's enough space even for short messages
+          maxWidth: "50%", 
+          minWidth: "65px",
           boxShadow: "0 1px 2px rgba(0,0,0,0.2)",
           fontSize: "14px",
           textAlign: "left",
           cursor: "text",
-          wordWrap: "break-word", // Prevents long words from overflowing
+          wordWrap: "break-word", 
           lineHeight: "1.4",
           position: "relative",
         }} onContextMenu={handleContextMenu} onMouseLeave={handleCloseContextMenu}>
@@ -111,8 +111,8 @@ const MessageComponent = ({ message, user, deleteMessage, isLoading }) => {
               const file = fileFormat(url);
 
               return (
-                <Box key={index}>
-                  <a href={url} target='_blank' download style={{ color: 'black', }}>
+                <Box key={index * 2}>
+                  <a href={url} target='_top' download style={{ color: 'black', }}>
                     {
                       RenderAttachment(file, url)
                     }

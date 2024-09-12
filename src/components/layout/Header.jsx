@@ -102,7 +102,7 @@ const Header = () => {
                             <IconBtn title={"Logout"} icon={<LogoutIcon />} onClick={logoutHandler} />
                         </Box>
                         <Tooltip title={"Profile"}>
-                            <Avatar alt="profile_icon" src={transformImage(user?.avatar?.url)} sx={{ ml: 1, cursor: 'pointer', outline: 'none', border: 'none' }} onClick={() => dispatch(setIsProfileOpen(true))} />
+                            <Avatar alt="profile_icon" src={transformImage(user?.avatar?.url)} sx={{ ml: 1, cursor: 'pointer', outline: 'none', border: 'none', width: {xs: '30px', sm: '35px'}, height: {xs: '30px', sm: '35px'} }} onClick={() => dispatch(setIsProfileOpen(true))} />
                         </Tooltip>
                     </Toolbar>
                 </AppBar>

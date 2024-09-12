@@ -60,7 +60,7 @@ const SearchDialog = () => {
               ) : (
                 <>
                   {
-                    users.length ? (
+                    users?.length ? (
                       users?.map(i => <UserItem key={i._id} user={i} handler={addFriendHandler} handlerIsLoading={isLoadingSendFreindRequest} />)
                     ) : (
                       <strong style={{ width: '100%', marginLeft: '1rem' }}>No results found.</strong>

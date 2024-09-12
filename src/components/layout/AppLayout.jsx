@@ -72,22 +72,18 @@ const AppLayout = () => (WrappedComponent) => {
             dispatch(setIsMobile(false));
         }
 
-        useEffect(() => {
-            return () => handleMobileClose();
-        }, [chatId])
-
         return (
             <>
                 <Title />
                 <Header />
                 <DeleteChatMenu dispatch={dispatch} deleteChatMenuAnchor={deleteChatMenuAnchor.current} />
-                <Grid container height={"calc(100vh - 3.5rem)"}>
+                <Grid container height={"calc(100vh - 4rem)"}>
                     <Grid item xs={12} sm={4} md={3} sx={{ display: { xs: 'none', sm: 'block' }, height: '100%', overflowY: 'auto' }}>
                         {
                             isLoading ? (<Skeleton height={'100vh'} />) : (<ChatList chats={data?.chats} chatId={chatId} newMessagesAlert={newMessagesAlert} onlineUsers={onlineUsers} handleDeleteChat={handleDeleteChat} />)
                         }
                     </Grid>
-                    <Grid item xs={12} sm={8} md={9} height={"100%"} sx={{ overflowY: 'auto', height: '100%' }}>
+                    <Grid item xs={12} sm={8} md={9} sx={{ overflowY: 'auto', height: '100%' }}>
                         <WrappedComponent {...props} chatId={chatId} />
                     </Grid>
                 </Grid>
@@ -95,7 +91,7 @@ const AppLayout = () => (WrappedComponent) => {
                 {/* Mobile Screen */}
                 {
                     isLoading ? (<Skeleton height={'100vh'} />) : (
-                        <SwipeableDrawer anchor="left"  open={isMobile} onOpen={() => dispatch(setIsMobile(true))} variant='temporary' onClose={handleMobileClose}>
+                        <SwipeableDrawer anchor="left" open={isMobile} onOpen={() => dispatch(setIsMobile(true))} variant='temporary' onClose={handleMobileClose}>
                             <ChatList w='75vw' chats={data?.chats} chatId={chatId} newMessagesAlert={newMessagesAlert} onlineUsers={onlineUsers} handleDeleteChat={handleDeleteChat} />
                         </SwipeableDrawer>
                     )

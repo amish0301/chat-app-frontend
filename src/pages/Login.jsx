@@ -4,12 +4,12 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Avatar, Button, CircularProgress, Container, IconButton, Paper, Stack, TextField, Typography } from '@mui/material';
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { bgGradiant } from '../components/styles/color';
 import { VisuallyHiddenInput } from '../components/styles/StyledComponents';
-import { setLoading, userExists } from '../redux/reducers/auth';
+import { userExists } from '../redux/reducers/auth';
 import { setIsLogin, setIsShowPassword } from '../redux/reducers/misc';
 import { loginConfig, serverURI, signupConfig } from '../utils/config';
 import { userNameValidator } from '../utils/validator';
@@ -17,7 +17,7 @@ import { userNameValidator } from '../utils/validator';
 const Login = () => {
     const dispatch = useDispatch();
     const {  isLogin, isShowPassword } = useSelector(state => state.utility);
-    const { loader } = useSelector(state => state.auth);
+    const [isLoading, setIsLoading] = useState(false);
 
     const name = useInputValidation("");
     const bio = useInputValidation("");
@@ -28,7 +28,7 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         const toastId = toast.loading("Verifying Credentials...");
-        dispatch(setLoading(true));
+        setIsLoading(true)
 
         try {
             const { data } = await axios.post(`${serverURI}/api/user/login`, {
@@ -41,7 +41,7 @@ const Login = () => {
         } catch (error) {
             toast.error(error?.response?.data?.message || "User Not Exist, Please Sign Up", { id: toastId });
         } finally {
-            dispatch(setLoading(false));
+            setIsLoading(false);
         }
 
     }
@@ -58,17 +58,16 @@ const Login = () => {
 
         if (!avatar.file) return toast.error("Please upload your profile picture");
         const toastId = toast.loading("Creating an Account...");
-        dispatch(setLoading(true));
+        setIsLoading(true)
 
         try {
             const { data } = await axios.post(`${serverURI}/api/user/signup`, formData, signupConfig);
             dispatch(userExists(data.user));
             toast.success(data.message, { id: toastId });
-            dispatch(setLoading(false));
         } catch (error) {
             toast.error(error?.response?.data?.message || "Something went wrong, Please try again", { id: toastId });
         } finally {
-            dispatch(setLoading(false));
+            setIsLoading(false);
         }
     }
 
@@ -89,11 +88,11 @@ const Login = () => {
                                     <TextField required fullWidth label='Password' type={isShowPassword ? 'text' : 'password'} margin='normal' variant='outlined' value={password.value} onChange={password.changeHandler} />
                                     <span className='togglePassIcon' onClick={() => dispatch(setIsShowPassword(!isShowPassword))}>{isShowPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</span>
                                 </div>
-                                <Button sx={{ marginTop: '1rem' }} variant='contained' color='primary' type='submit' fullWidth disabled={loader}>
-                                    {loader ? <CircularProgress size={20} sx={{ color: 'white' }} /> : "Login"}
+                                <Button sx={{ marginTop: '1rem' }} variant='contained' color='primary' type='submit' fullWidth disabled={isLoading}>
+                                    {isLoading ? <CircularProgress size={20} sx={{ color: 'white' }} /> : "Login"}
                                 </Button>
                                 <Typography textAlign={'center'} m={'1rem'} textTransform={'uppercase'}>or</Typography>
-                                <Button className='btn_login_signup' variant='text' color='secondary' fullWidth onClick={() => dispatch(setIsLogin(false))} disabled={loader}>Sign Up</Button>
+                                <Button className='btn_login_signup' variant='text' color='secondary' fullWidth onClick={() => dispatch(setIsLogin(false))} disabled={isLoading}>Sign Up</Button>
                             </form>
                         </>) : (<>
                             <Typography variant='h5' sx={{ fontWeight: 'bold' }}>Sign Up</Typography>
@@ -131,11 +130,11 @@ const Login = () => {
                                     password.error && (<Typography color={"error"} variant="caption">{password.error}</Typography>)
                                 }
                                 <TextField required fullWidth label='Bio' margin='normal' variant='outlined' value={bio.value} onChange={bio.changeHandler} />
-                                <Button sx={{ marginTop: '1rem' }} variant='contained' color='primary' type='submit' fullWidth disabled={loader}>
-                                    {loader ? <CircularProgress sx={{ color: 'white' }} size={20} /> : 'Sign Up'}
+                                <Button sx={{ marginTop: '1rem' }} variant='contained' color='primary' type='submit' fullWidth disabled={isLoading}>
+                                    {isLoading ? <CircularProgress sx={{ color: 'white' }} size={20} /> : 'Sign Up'}
                                 </Button>
                                 <Typography textAlign={'center'} m={'1rem'} textTransform={'uppercase'}>or</Typography>
-                                <Button className='btn_login_signup' variant='text' color='secondary' fullWidth onClick={() => dispatch(setIsLogin(true))} disabled={loader}>Login</Button>
+                                <Button className='btn_login_signup' variant='text' color='secondary' fullWidth onClick={() => dispatch(setIsLogin(true))} disabled={isLoading}>Login</Button>
                             </form>
                         </>)
                     }
