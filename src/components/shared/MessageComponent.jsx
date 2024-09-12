@@ -6,6 +6,7 @@ import React, { memo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { fileFormat } from '../../lib/feature';
 import RenderAttachment from './RenderAttachment';
+import { ProgressiveLoader } from '../layout/Loaders';
 
 const MessageComponent = ({ message, user, deleteMessage, isLoading }) => {
   const { sender, content, attachments = [], createdAt } = message;
@@ -46,7 +47,7 @@ const MessageComponent = ({ message, user, deleteMessage, isLoading }) => {
         position: "relative",
       }}
     >
-      {isLoading && <LinearProgress />}
+      {isLoading && <ProgressiveLoader />}
       <motion.div
         variants={{
           hidden: { opacity: 0 },
@@ -94,7 +95,7 @@ const MessageComponent = ({ message, user, deleteMessage, isLoading }) => {
           )
         }
 
-        {!sameSender && <Typography variant='caption' style={{
+        {!sameSender && <Typography variant='caption' textTransform={'capitalize'} style={{
           color: "#0000b2",
           fontWeight: "600",
           marginBottom: "5px",
