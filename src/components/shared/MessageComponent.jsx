@@ -47,7 +47,6 @@ const MessageComponent = ({ message, user, deleteMessage, isLoading }) => {
         position: "relative",
       }}
     >
-      {isLoading && <ProgressiveLoader />}
       <motion.div
         variants={{
           hidden: { opacity: 0 },
@@ -113,7 +112,7 @@ const MessageComponent = ({ message, user, deleteMessage, isLoading }) => {
 
               return (
                 <Box key={index * 2}>
-                  <a href={url} target='_top' download style={{ color: 'black', }}>
+                  <a href={url} target='_blank' download style={{ color: 'black', }}>
                     {
                       RenderAttachment(file, url)
                     }
@@ -139,6 +138,7 @@ const MessageComponent = ({ message, user, deleteMessage, isLoading }) => {
           {timeFormat}
         </Typography>
       </motion.div>
+      {isLoading && <ProgressiveLoader />}
     </motion.div>
   )
 }
