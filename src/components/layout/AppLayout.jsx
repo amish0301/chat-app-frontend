@@ -72,31 +72,31 @@ const AppLayout = () => (WrappedComponent) => {
             dispatch(setIsMobile(false));
         }
 
+        useEffect(() => {
+            return () => handleMobileClose();
+        }, [chatId])
+
         return (
             <>
                 <Title />
                 <Header />
                 <DeleteChatMenu dispatch={dispatch} deleteChatMenuAnchor={deleteChatMenuAnchor.current} />
-                <Grid container height={"calc(100vh - 4rem)"}>
-                    <Grid item sm={4} md={3} sx={{ display: { xs: 'none', sm: 'block' } }} height={"100%"}>
+                <Grid container height={"calc(100vh - 3.5rem)"}>
+                    <Grid item xs={12} sm={4} md={3} sx={{ display: { xs: 'none', sm: 'block' }, height: '100%', overflowY: 'auto' }}>
                         {
                             isLoading ? (<Skeleton height={"100%"} />) : (<ChatList chats={data?.chats} chatId={chatId} newMessagesAlert={newMessagesAlert} onlineUsers={onlineUsers} handleDeleteChat={handleDeleteChat} />)
                         }
                     </Grid>
-                    {/* for showing profile change below grid with for md = 5 & lg = 6 */}
-                    <Grid item xs={12} sm={8} md={9} lg={9} height={"100%"}>
+                    <Grid item xs={12} sm={8} md={9} height={"100%"} sx={{ overflowY: 'auto', height: '100%' }}>
                         <WrappedComponent {...props} chatId={chatId} />
                     </Grid>
-                    {/* <Grid item md={4} lg={3} sx={{ display: { xs: 'none', md: 'none' }, padding: '1rem', bgcolor: '#c06c84' }} height={"100%"}>
-                        <Profile />
-                    </Grid> */}
                 </Grid>
 
                 {/* Mobile Screen */}
                 {
                     isLoading ? (<Skeleton />) : (
-                        <SwipeableDrawer anchor="left" open={isMobile} onOpen={() => dispatch(setIsMobile(true))} variant='temporary' onClose={handleMobileClose}>
-                            <ChatList w='70vw' chats={data?.chats} chatId={chatId} newMessagesAlert={newMessagesAlert} onlineUsers={onlineUsers} handleDeleteChat={handleDeleteChat} />
+                        <SwipeableDrawer anchor="left"  open={isMobile} onOpen={() => dispatch(setIsMobile(true))} variant='temporary' onClose={handleMobileClose}>
+                            <ChatList w='75vw' chats={data?.chats} chatId={chatId} newMessagesAlert={newMessagesAlert} onlineUsers={onlineUsers} handleDeleteChat={handleDeleteChat} />
                         </SwipeableDrawer>
                     )
                 }

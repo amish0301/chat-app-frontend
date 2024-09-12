@@ -4,92 +4,71 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Avatar, Button, CircularProgress, Container, IconButton, Paper, Stack, TextField, Typography } from '@mui/material';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { bgGradiant } from '../components/styles/color';
 import { VisuallyHiddenInput } from '../components/styles/StyledComponents';
-import { userExists } from '../redux/reducers/auth';
-import { serverURI } from '../utils/config';
+import { setLoading, userExists } from '../redux/reducers/auth';
+import { setIsLogin, setIsShowPassword } from '../redux/reducers/misc';
+import { loginConfig, serverURI, signupConfig } from '../utils/config';
 import { userNameValidator } from '../utils/validator';
 
 const Login = () => {
-    const [isLogin, setIsLogin] = useState(true);
-    const [showPassword, setShowPassword] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
+    const {  isLogin, isShowPassword } = useSelector(state => state.utility);
+    const { loader } = useSelector(state => state.auth);
+
     const name = useInputValidation("");
     const bio = useInputValidation("");
     const username = useInputValidation("", userNameValidator);
     const password = useStrongPassword("");
     const avatar = useFileHandler("single");
-    const dispatch = useDispatch();
 
-    const handleToggle = () => {
-        setShowPassword((prev) => !prev);
-    }
-
-    const toggleLogin = () => {
-        setIsLogin((prev) => !prev);
-    }
-
-    // Need to FIX
     const handleLogin = async (e) => {
         e.preventDefault();
         const toastId = toast.loading("Verifying Credentials...");
-        setIsLoading(true);
-
-        const config = {
-            withCredentials: true,
-            headers: {
-                "Content-Type": "application/json"
-            }
-        };
+        dispatch(setLoading(true));
 
         try {
             const { data } = await axios.post(`${serverURI}/api/user/login`, {
                 username: username.value,
                 password: password.value,
-            }, config);
+            }, loginConfig);
 
             toast.success(data.message, { id: toastId });
             dispatch(userExists(data.user));
         } catch (error) {
-            toast.error(error?.response?.data?.message || "User doesn't Exist", { id: toastId });
-        }finally{
-            setIsLoading(false);
+            toast.error(error?.response?.data?.message || "User Not Exist, Please Sign Up", { id: toastId });
+        } finally {
+            dispatch(setLoading(false));
         }
 
     }
 
     const handleSignUp = async (e) => {
         e.preventDefault();
-        
+
         const formData = new FormData();
         formData.append("avatar", avatar.file);
         formData.append("name", name.value);
         formData.append("bio", bio.value);
         formData.append("username", username.value);
         formData.append("password", password.value);
-        
+
         if (!avatar.file) return toast.error("Please upload your profile picture");
         const toastId = toast.loading("Creating an Account...");
-        setIsLoading(true);
-        
-        const config = {
-            withCredentials: true,
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        };
+        dispatch(setLoading(true));
 
         try {
-            const { data } = await axios.post(`${serverURI}/api/user/signup`, formData, config);
+            const { data } = await axios.post(`${serverURI}/api/user/signup`, formData, signupConfig);
             dispatch(userExists(data.user));
             toast.success(data.message, { id: toastId });
+            dispatch(setLoading(false));
         } catch (error) {
-            toast.error(error?.response?.data?.message || "Something went wrong", { id: toastId });
-        }finally{
-            setIsLoading(false);
+            toast.error(error?.response?.data?.message || "Something went wrong, Please try again", { id: toastId });
+        } finally {
+            dispatch(setLoading(false));
         }
     }
 
@@ -107,14 +86,14 @@ const Login = () => {
                                     username.error && (<Typography color={"error"} variant="caption">{username.error}</Typography>)
                                 }
                                 <div className='passField'>
-                                    <TextField required fullWidth label='Password' type={showPassword ? 'text' : 'password'} margin='normal' variant='outlined' value={password.value} onChange={password.changeHandler} />
-                                    <span className='togglePassIcon' onClick={handleToggle}>{showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</span>
+                                    <TextField required fullWidth label='Password' type={isShowPassword ? 'text' : 'password'} margin='normal' variant='outlined' value={password.value} onChange={password.changeHandler} />
+                                    <span className='togglePassIcon' onClick={() => dispatch(setIsShowPassword(!isShowPassword))}>{isShowPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</span>
                                 </div>
-                                <Button sx={{ marginTop: '1rem' }} variant='contained' color='primary' type='submit' fullWidth disabled={isLoading}>
-                                    {isLoading ? <CircularProgress size={20} sx={{ color: 'white' }} /> : "Login"}
+                                <Button sx={{ marginTop: '1rem' }} variant='contained' color='primary' type='submit' fullWidth disabled={loader}>
+                                    {loader ? <CircularProgress size={20} sx={{ color: 'white' }} /> : "Login"}
                                 </Button>
                                 <Typography textAlign={'center'} m={'1rem'} textTransform={'uppercase'}>or</Typography>
-                                <Button className='btn_login_signup' variant='text' color='secondary' fullWidth onClick={toggleLogin} disabled={isLoading}>Sign Up</Button>
+                                <Button className='btn_login_signup' variant='text' color='secondary' fullWidth onClick={() => dispatch(setIsLogin(false))} disabled={loader}>Sign Up</Button>
                             </form>
                         </>) : (<>
                             <Typography variant='h5' sx={{ fontWeight: 'bold' }}>Sign Up</Typography>
@@ -144,19 +123,19 @@ const Login = () => {
                                     username.error && (<Typography color={"error"} variant="caption">{username.error}</Typography>)
                                 }
                                 <div className="passField">
-                                    <TextField required fullWidth label='Password' type={showPassword ? 'text' : 'password'} margin='normal' variant='outlined' value={password.value} onChange={password.changeHandler} />
-                                    <span className='togglePassIcon' onClick={handleToggle}>{showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</span>
+                                    <TextField required fullWidth label='Password' type={isShowPassword ? 'text' : 'password'} margin='normal' variant='outlined' value={password.value} onChange={password.changeHandler} />
+                                    <span className='togglePassIcon' onClick={() => dispatch(setIsShowPassword(!isShowPassword))}>{isShowPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</span>
                                 </div>
                                 {/* validating password */}
                                 {
                                     password.error && (<Typography color={"error"} variant="caption">{password.error}</Typography>)
                                 }
                                 <TextField required fullWidth label='Bio' margin='normal' variant='outlined' value={bio.value} onChange={bio.changeHandler} />
-                                <Button sx={{ marginTop: '1rem' }} variant='contained' color='primary' type='submit' fullWidth disabled={isLoading}>
-                                    {isLoading ? <CircularProgress sx={{ color: 'white' }} size={20} /> : 'Sign Up'}
+                                <Button sx={{ marginTop: '1rem' }} variant='contained' color='primary' type='submit' fullWidth disabled={loader}>
+                                    {loader ? <CircularProgress sx={{ color: 'white' }} size={20} /> : 'Sign Up'}
                                 </Button>
                                 <Typography textAlign={'center'} m={'1rem'} textTransform={'uppercase'}>or</Typography>
-                                <Button className='btn_login_signup' variant='text' color='secondary' fullWidth onClick={toggleLogin} disabled={isLoading}>Login</Button>
+                                <Button className='btn_login_signup' variant='text' color='secondary' fullWidth onClick={() => dispatch(setIsLogin(true))} disabled={loader}>Login</Button>
                             </form>
                         </>)
                     }

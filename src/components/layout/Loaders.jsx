@@ -102,8 +102,8 @@ export const GroupsLayoutLoader = () => {
 
 export const ProgressiveLoader = () => {
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-            <CircularProgress size={"3rem"} color="secondary"/>
-        </Box>
+        <Stack alignItems={'center'} justifyContent={'center'} height={'100%'}>
+            <CircularProgress />
+        </Stack>
     )
 }
