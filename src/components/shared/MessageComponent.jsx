@@ -1,12 +1,12 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, LinearProgress, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { motion } from "framer-motion";
 import moment from 'moment';
 import React, { memo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { fileFormat } from '../../lib/feature';
 import RenderAttachment from './RenderAttachment';
-import { ProgressiveLoader } from '../layout/Loaders';
+import { MessageDeleteLoader } from '../layout/Loaders';
 
 const MessageComponent = ({ message, user, deleteMessage, isLoading }) => {
   const { sender, content, attachments = [], createdAt } = message;
@@ -47,7 +47,7 @@ const MessageComponent = ({ message, user, deleteMessage, isLoading }) => {
         position: "relative",
       }}
     >
-      {isLoading && <ProgressiveLoader />}
+      {isLoading && <MessageDeleteLoader  />}
       <motion.div
         variants={{
           hidden: { opacity: 0 },

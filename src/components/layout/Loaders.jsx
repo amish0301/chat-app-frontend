@@ -1,6 +1,6 @@
-import React from "react";
-import { Grid, Skeleton, Stack, Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Grid, Skeleton, Stack } from "@mui/material";
 import { motion } from "framer-motion";
+import React from "react";
 
 export const LayoutLoader = () => {
     return (
@@ -101,6 +101,14 @@ export const ProgressiveLoader = ({ h = '100%' }) => {
     return (
         <Stack alignItems={'center'} justifyContent={'center'} height={h}>
             <CircularProgress />
+        </Stack>
+    )
+}
+
+export const MessageDeleteLoader = () => {
+    return (
+        <Stack alignItems={'center'} justifyContent={'center'} height={'100%'}>
+            <CircularProgress variant="indeterminate" thickness={4} size={25} />
         </Stack>
     )
 }
