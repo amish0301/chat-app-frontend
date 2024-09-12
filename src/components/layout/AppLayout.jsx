@@ -84,7 +84,7 @@ const AppLayout = () => (WrappedComponent) => {
                 <Grid container height={"calc(100vh - 3.5rem)"}>
                     <Grid item xs={12} sm={4} md={3} sx={{ display: { xs: 'none', sm: 'block' }, height: '100%', overflowY: 'auto' }}>
                         {
-                            isLoading ? (<Skeleton height={"100%"} />) : (<ChatList chats={data?.chats} chatId={chatId} newMessagesAlert={newMessagesAlert} onlineUsers={onlineUsers} handleDeleteChat={handleDeleteChat} />)
+                            isLoading ? (<Skeleton height={'100vh'} />) : (<ChatList chats={data?.chats} chatId={chatId} newMessagesAlert={newMessagesAlert} onlineUsers={onlineUsers} handleDeleteChat={handleDeleteChat} />)
                         }
                     </Grid>
                     <Grid item xs={12} sm={8} md={9} height={"100%"} sx={{ overflowY: 'auto', height: '100%' }}>
@@ -94,7 +94,7 @@ const AppLayout = () => (WrappedComponent) => {
 
                 {/* Mobile Screen */}
                 {
-                    isLoading ? (<Skeleton />) : (
+                    isLoading ? (<Skeleton height={'100vh'} />) : (
                         <SwipeableDrawer anchor="left"  open={isMobile} onOpen={() => dispatch(setIsMobile(true))} variant='temporary' onClose={handleMobileClose}>
                             <ChatList w='75vw' chats={data?.chats} chatId={chatId} newMessagesAlert={newMessagesAlert} onlineUsers={onlineUsers} handleDeleteChat={handleDeleteChat} />
                         </SwipeableDrawer>
