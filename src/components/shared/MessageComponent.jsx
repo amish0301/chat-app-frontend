@@ -32,6 +32,8 @@ const MessageComponent = ({ message, user, deleteMessage, isLoading }) => {
     setContextMenu({ visible: false, x: 0, y: 0 });
   }
 
+  if(isLoading) return <ProgressiveLoader />
+
   return (
     <motion.div initial="hidden"
       animate="visible"
@@ -138,7 +140,6 @@ const MessageComponent = ({ message, user, deleteMessage, isLoading }) => {
           {timeFormat}
         </Typography>
       </motion.div>
-      {isLoading && <ProgressiveLoader />}
     </motion.div>
   )
 }
