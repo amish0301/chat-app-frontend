@@ -6,7 +6,6 @@ import React, { memo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { fileFormat } from '../../lib/feature';
 import RenderAttachment from './RenderAttachment';
-import { MessageDeleteLoader } from '../layout/Loaders';
 
 const MessageComponent = ({ message, user, deleteMessage, isLoading }) => {
   const { sender, content, attachments = [], createdAt } = message;
@@ -47,7 +46,6 @@ const MessageComponent = ({ message, user, deleteMessage, isLoading }) => {
         position: "relative",
       }}
     >
-      {isLoading && <MessageDeleteLoader  />}
       <motion.div
         variants={{
           hidden: { opacity: 0 },

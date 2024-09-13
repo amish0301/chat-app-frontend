@@ -104,11 +104,3 @@ export const ProgressiveLoader = ({ h = '100%' }) => {
         </Stack>
     )
 }
-
-export const MessageDeleteLoader = () => {
-    return (
-        <Stack alignItems={'center'} justifyContent={'center'} height={'100%'}>
-            <CircularProgress variant="indeterminate" thickness={4} size={25} />
-        </Stack>
-    )
-}
