@@ -35,8 +35,6 @@ const NewGroup = () => {
     if (!groupName.value) return toast.error("Enter Group Name");
     if (selectedMembers.length < 2) return toast.error("Please add atleast 2 members");
 
-    console.log(selectedMembers);
-
     await newGroup("Creating New Group...", { name: groupName.value, members: selectedMembers });
     closeHandler();
   }
