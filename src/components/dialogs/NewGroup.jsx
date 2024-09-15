@@ -31,11 +31,13 @@ const NewGroup = () => {
     );
   };
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     if (!groupName.value) return toast.error("Enter Group Name");
     if (selectedMembers.length < 2) return toast.error("Please add atleast 2 members");
 
-    newGroup("Creating New Group...", { name: groupName.value, members: selectedMembers });
+    console.log(selectedMembers);
+
+    await newGroup("Creating New Group...", { name: groupName.value, members: selectedMembers });
     closeHandler();
   }
 
