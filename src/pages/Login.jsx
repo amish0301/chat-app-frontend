@@ -25,8 +25,7 @@ const Login = () => {
     const password = useStrongPassword("");
     const avatar = useFileHandler("single");
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
+    const handleLogin = async () => {
         const toastId = toast.loading("Verifying Credentials...");
         setIsLoading(true)
 
@@ -64,6 +63,7 @@ const Login = () => {
             const { data } = await axios.post(`${serverURI}/api/user/signup`, formData, signupConfig);
             dispatch(userExists(data.user));
             toast.success(data.message, { id: toastId });
+            dispatch(setIsLogin(true));
         } catch (error) {
             toast.error(error?.response?.data?.message || "Something went wrong, Please try again", { id: toastId });
         } finally {
